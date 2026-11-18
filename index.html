@@ -2,11 +2,19 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>滇西学术考察 · 2026.11.17–11.25 行程路书与学术档案</title>
   <meta name="description" content="滇西学术考察（2026年11月17日—11月25日）在线交互路书（GitHub Pages 部署）：融合九日行程、滇缅公路西段自驾路书、爱道思考察手册、范卫平学术思考、行前四本书与九条史实核查。" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" id="meta-theme-light" />
+  <meta name="theme-color" content="#161c24" media="(prefers-color-scheme: dark)" id="meta-theme-dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="滇西路书" />
   <style>
     :root {
+      color-scheme: light;
       --bg: #f6f7f9;
       --rail-bg: #eff1f5;
       --card: #ffffff;
@@ -30,11 +38,18 @@
       --pill-active: #111827;
       --pill-active-fg: #ffffff;
       --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 14px rgba(15, 23, 42, 0.03);
-      --topbar-h: 46px;
-      --rail-w: 70px;
+      --target-size: 24px;
+      --topbar-h: 48px;
+      --bottombar-h: 56px;
+      --rail-w: 146px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
     }
 
     html.dark {
+      color-scheme: dark;
       --bg: #0d1117;
       --rail-bg: #131820;
       --card: #161c24;
@@ -60,36 +75,74 @@
       --shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     }
 
+    @media (pointer: coarse) {
+      :root {
+        --target-size: 44px;
+      }
+    }
+
     @media (min-width: 720px) {
       :root {
-        --rail-w: 146px;
         --topbar-h: 50px;
+        --bottombar-h: 0px;
       }
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      scroll-padding-top: calc(var(--topbar-h) + var(--safe-top) + 12px);
+      scroll-padding-bottom: calc(var(--bottombar-h) + var(--safe-bottom) + 16px);
+    }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-      font-size: 15px;
-      line-height: 1.74;
-      overflow-x: clip;
+      font-size: 1rem;
+      line-height: 1.75;
+      overflow-wrap: break-word;
     }
     .serif {
       font-family: "Songti SC", "STSong", "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
     }
-    img { display: block; max-width: 100%; height: auto; }
+    :where(h1, h2, h3, h4) { text-wrap: balance; }
+    :where(p, li) { text-wrap: pretty; }
+    :where(a, code, .ext-link) { overflow-wrap: anywhere; }
+    img, video { display: block; max-inline-size: 100%; block-size: auto; }
     button, select, textarea, input { font: inherit; color: inherit; }
+    input:not([type="checkbox"], [type="radio"]), select, textarea {
+      font: inherit;
+      font-size: max(1rem, 1em);
+    }
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+    :where(button:not(.nav-hl), select, textarea, input:not([type="checkbox"], [type="radio"], [type="file"]), [role="button"], nav a, .rm-stop, .jump-link, .file-lbl, label:has(input[type="checkbox"], input[type="radio"]), summary) {
+      min-block-size: var(--target-size);
+      min-inline-size: var(--target-size);
+    }
+    .visually-hidden {
+      position: absolute;
+      clip-path: inset(50%);
+      overflow: hidden;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      border: 0;
+      white-space: nowrap;
+    }
 
     /* ---------- Top App Bar ---------- */
     .topbar {
       position: sticky;
       top: 0;
       z-index: 50;
-      height: var(--topbar-h);
+      min-block-size: calc(var(--topbar-h) + var(--safe-top));
+      padding: var(--safe-top) var(--safe-right) 0 var(--safe-left);
       background: color-mix(in srgb, var(--card) 92%, transparent);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -97,45 +150,61 @@
     }
     .topbar-inner {
       max-width: 1020px;
-      height: 100%;
+      min-block-size: var(--topbar-h);
       margin: 0 auto;
-      padding: 0 10px;
+      padding: 4px 12px;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px 8px;
+    }
+    .topbar-inner > :not(button, input, select, textarea, a, [role="button"], label) {
+      min-inline-size: 0;
     }
     .tb-left {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 6px;
-      min-width: 0;
+      min-inline-size: 0;
     }
     .tb-title {
-      font-size: 15.5px;
+      margin: 0;
+      font-size: 1rem;
       font-weight: 700;
       letter-spacing: 0.01em;
+      line-height: 1.25;
+    }
+    .tb-cur-sec {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-soft);
+      border: 1px solid var(--blue-border);
+      padding: 1px 8px;
+      border-radius: 999px;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
     .tb-actions {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       flex-shrink: 0;
     }
     .icon-btn {
       border: 1px solid var(--border);
       background: var(--card);
       border-radius: 8px;
-      height: 31px;
-      padding: 0 8px;
-      font-size: 12.5px;
+      min-block-size: max(32px, var(--target-size));
+      padding: 0 10px;
+      font-size: 0.8125rem;
       font-weight: 500;
       color: var(--ink-2);
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 4px;
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s;
@@ -145,11 +214,18 @@
       border-color: var(--blue-border);
       color: var(--blue);
     }
+    @media (max-width: 719px) {
+      #btn-toggle-rail,
+      #btn-search {
+        display: none;
+      }
+    }
     .progress-track {
       position: absolute;
       left: 0; right: 0; bottom: -1px;
       height: 2px;
       background: transparent;
+      pointer-events: none;
     }
     .progress-bar {
       height: 100%;
@@ -161,11 +237,11 @@
     /* ---------- Search Drawer ---------- */
     .search-bar {
       position: sticky;
-      top: var(--topbar-h);
+      top: calc(var(--topbar-h) + var(--safe-top));
       z-index: 45;
       background: var(--card);
       border-bottom: 1px solid var(--border);
-      padding: 8px 12px;
+      padding: 8px max(12px, var(--safe-right)) 8px max(12px, var(--safe-left));
       box-shadow: var(--shadow);
     }
     .search-bar[hidden] { display: none; }
@@ -173,48 +249,56 @@
       max-width: 1000px;
       margin: 0 auto;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 6px;
     }
     .search-inner input {
-      flex: 1;
-      min-width: 0;
-      height: 34px;
-      padding: 0 10px;
+      flex: 1 1 160px;
+      min-inline-size: 0;
+      min-block-size: max(38px, var(--target-size));
+      padding: 6px 10px;
       border: 1px solid var(--border-strong);
       border-radius: 8px;
       background: var(--card-subtle);
-      font-size: 14px;
+      font-size: max(1rem, 1em);
+    }
+    .search-inner input:focus-visible {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px var(--blue-soft);
       outline: none;
     }
-    .search-inner input:focus { border-color: var(--blue); }
-    .search-cnt { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+    .search-cnt { font-size: 0.75rem; color: var(--ink-3); white-space: nowrap; }
     mark.search-hit {
       background: #fde047;
       color: #111827;
       padding: 0 2px;
       border-radius: 3px;
     }
+    mark.search-hit.current {
+      background: #fb923c;
+      color: #111827;
+      outline: 2px solid #ea580c;
+      border-radius: 3px;
+    }
 
-    /* ---------- Main Two-Column Shell (Left Rail + Right Stream) ---------- */
+    /* ---------- Main Two-Column Shell (Desktop Rail + Full-Width Mobile Stream) ---------- */
     .app-shell {
       max-width: 1020px;
       margin: 0 auto;
       display: flex;
       align-items: flex-start;
-      min-height: calc(100dvh - var(--topbar-h));
-    }
-    body.rail-collapsed .left-rail {
-      display: none;
+      min-height: calc(100dvh - var(--topbar-h) - var(--safe-top));
     }
 
-    /* ---------- Left Sticky Tab Rail ---------- */
+    /* ---------- Left Sticky Tab Rail (Desktop >= 720px) ---------- */
     .left-rail {
+      display: none;
       flex: 0 0 var(--rail-w);
       width: var(--rail-w);
       position: sticky;
-      top: var(--topbar-h);
-      height: calc(100dvh - var(--topbar-h));
+      top: calc(var(--topbar-h) + var(--safe-top));
+      height: calc(100dvh - var(--topbar-h) - var(--safe-top));
       overflow-y: auto;
       overscroll-behavior: contain;
       background: var(--rail-bg);
@@ -224,13 +308,17 @@
       z-index: 30;
     }
     .left-rail::-webkit-scrollbar { display: none; }
+    @media (min-width: 720px) {
+      .left-rail { display: block; }
+      body.rail-collapsed .left-rail { display: none; }
+    }
 
     .rail-group {
-      font-size: 10px;
+      font-size: 0.6875rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       color: var(--ink-3);
-      padding: 10px 6px 4px 9px;
+      padding: 12px 14px 4px;
       text-transform: uppercase;
     }
     .rail-tab {
@@ -238,37 +326,31 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 7px 5px 7px 9px;
-      min-height: 46px;
+      padding: 8px 12px 8px 14px;
+      min-block-size: max(48px, var(--target-size));
       text-decoration: none;
       color: var(--ink-2);
       border-left: 3px solid transparent;
       transition: background 0.15s, color 0.15s;
-      line-height: 1.25;
+      line-height: 1.3;
     }
     .rail-tab .rt-top {
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 12.5px;
+      gap: 6px;
+      font-size: 0.875rem;
     }
     .rail-tab .rt-top b {
       font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
     .rail-tab .rt-sub {
-      font-size: 10.5px;
+      font-size: 0.75rem;
       color: var(--ink-3);
       margin-top: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-    @media (min-width: 720px) {
-      .rail-group { padding: 12px 14px 4px; font-size: 11px; }
-      .rail-tab { padding: 8px 12px 8px 14px; min-height: 48px; }
-      .rail-tab .rt-top { font-size: 13.5px; }
-      .rail-tab .rt-sub { font-size: 12px; }
     }
     .rail-tab.active {
       background: var(--card);
@@ -294,22 +376,33 @@
     .r-dot.both {
       background: linear-gradient(135deg, var(--green) 50%, var(--red) 50%);
     }
+    .today-tag {
+      font-size: 0.625rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: #fff;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
     .rail-note-cnt {
       background: var(--red);
       color: #fff;
-      font-size: 10px;
+      font-size: 0.625rem;
       font-weight: 700;
       border-radius: 999px;
       padding: 0 5px;
-      line-height: 15px;
+      line-height: 16px;
       margin-left: auto;
     }
 
-    /* ---------- Right Content Stream ---------- */
+    /* ---------- Right Content Stream (100% Width on iPhone) ---------- */
     .main-stream {
       flex: 1;
-      min-width: 0;
-      padding: 12px 10px 88px;
+      min-inline-size: 0;
+      container: main-col / inline-size;
+      padding: 12px max(12px, var(--safe-right)) calc(var(--bottombar-h) + var(--safe-bottom) + 28px) max(12px, var(--safe-left));
     }
     @media (min-width: 720px) {
       .main-stream { padding: 18px 24px 96px; }
@@ -326,6 +419,7 @@
     }
     .hero-banner img {
       width: 100%;
+      height: auto;
       display: block;
     }
     .hero-meta-row {
@@ -334,7 +428,7 @@
       align-items: center;
       gap: 6px 12px;
       margin: 11px 2px 12px;
-      font-size: 13px;
+      font-size: 0.8125rem;
       color: var(--ink-2);
     }
     .countdown-pill {
@@ -345,7 +439,7 @@
       background: var(--red-soft);
       border: 1px solid var(--red-border);
       color: var(--red);
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 700;
     }
 
@@ -360,17 +454,21 @@
     }
     .filter-pills {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
     }
     .f-pill {
       border: 1px solid var(--border-strong);
       background: var(--card);
       color: var(--ink-2);
       border-radius: 999px;
-      padding: 5px 14px;
-      font-size: 13px;
+      padding: 6px 14px;
+      font-size: 0.8125rem;
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       transition: all 0.15s;
     }
@@ -383,7 +481,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 11.5px;
+      font-size: 0.75rem;
       color: var(--ink-3);
     }
     .legend-dots span { display: inline-flex; align-items: center; gap: 4px; }
@@ -391,33 +489,46 @@
     .route-mini-scroll {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 8px;
       overflow-x: auto;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x proximity;
       padding: 8px 10px;
       margin-bottom: 14px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 10px;
       scrollbar-width: none;
-      font-size: 12px;
+      font-size: 0.75rem;
       white-space: nowrap;
     }
     .route-mini-scroll::-webkit-scrollbar { display: none; }
     .rm-stop {
+      scroll-snap-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
       color: var(--ink);
-      padding: 3px 7px;
-      border-radius: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
       background: var(--card-subtle);
       border: 1px solid var(--border);
       font-weight: 600;
+      flex-shrink: 0;
     }
     .rm-stop.tour {
       border-color: var(--red-border);
       background: var(--red-soft);
       color: var(--red);
     }
-    .rm-sep { color: var(--ink-3); font-size: 11px; }
+    .rm-stop.is-today {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+    .rm-sep { color: var(--ink-3); font-size: 0.7rem; flex-shrink: 0; }
 
     /* ---------- Cards & Typography ---------- */
     .card {
@@ -428,11 +539,11 @@
       box-shadow: var(--shadow);
       margin-bottom: 14px;
     }
-    @media (min-width: 720px) {
+    @container main-col (inline-size > 38rem) {
       .card { padding: 22px 24px; margin-bottom: 18px; }
     }
     .eyebrow-red, .eyebrow-blue, .eyebrow-amber {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       margin-bottom: 4px;
@@ -442,7 +553,7 @@
     .eyebrow-blue { color: var(--blue); }
     .eyebrow-amber { color: var(--amber); }
     .sub-eyebrow {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--ink-3);
       margin: 6px 0 6px;
@@ -450,20 +561,20 @@
     }
     .card-h2 {
       margin: 2px 0 14px;
-      font-size: clamp(19px, 4.8vw, 23px);
+      font-size: clamp(1.15rem, 0.95rem + 1.8vw, 1.45rem);
       font-weight: 700;
       line-height: 1.35;
     }
     .card-h3 {
       margin: 0 0 11px;
-      font-size: clamp(17px, 4.3vw, 20px);
+      font-size: clamp(1.0625rem, 0.92rem + 1.4vw, 1.25rem);
       font-weight: 700;
       line-height: 1.38;
     }
     .p-body {
       margin: 0 0 11px;
       color: var(--ink);
-      word-break: break-word;
+      overflow-wrap: break-word;
     }
     .p-body:last-child { margin-bottom: 0; }
     .field-tag {
@@ -471,7 +582,7 @@
       color: var(--ink);
     }
     .meta-annot, .prov-note, .quote-prov {
-      font-size: 12.5px;
+      font-size: 0.8125rem;
       color: var(--ink-3);
       line-height: 1.6;
       margin: 0 0 10px;
@@ -485,7 +596,7 @@
       color: var(--blue);
       text-decoration: underline;
       text-underline-offset: 2px;
-      word-break: break-all;
+      overflow-wrap: anywhere;
     }
 
     /* ---------- Lasswell Blockquote (Exact Screenshot Match) ---------- */
@@ -498,19 +609,19 @@
       margin: 0 0 8px;
       font-style: italic;
       font-weight: 600;
-      font-size: 14.5px;
+      font-size: 0.9375rem;
       line-height: 1.6;
       color: var(--ink);
     }
     .lasswell-quote .q-zh {
       margin: 0 0 6px;
       font-weight: 600;
-      font-size: 14.5px;
+      font-size: 0.9375rem;
       line-height: 1.65;
       color: var(--ink);
     }
     .lasswell-quote footer {
-      font-size: 13px;
+      font-size: 0.8125rem;
       color: var(--ink-2);
     }
 
@@ -523,7 +634,7 @@
       height: 1px;
       background: var(--border);
     }
-    @media (min-width: 720px) {
+    @container main-col (inline-size > 38rem) {
       .dual-key-card {
         grid-template-columns: 1fr 1px 1fr;
         gap: 20px;
@@ -532,19 +643,24 @@
     }
     .tiny-details {
       margin-top: 8px;
-      font-size: 12.5px;
+      font-size: 0.8125rem;
       color: var(--ink-3);
     }
-    .tiny-details summary { cursor: pointer; font-weight: 600; }
+    .tiny-details summary {
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
 
     /* ---------- Section Dividers ---------- */
-    .sec-block { margin-top: 22px; scroll-margin-top: 56px; }
+    .sec-block { margin-top: 22px; scroll-margin-top: calc(var(--topbar-h) + var(--safe-top) + 12px); }
     .sec-heading-bar {
       margin: 0 2px 10px;
     }
     .sec-h2 {
       margin: 2px 0 0;
-      font-size: clamp(19px, 5vw, 24px);
+      font-size: clamp(1.2rem, 0.95rem + 2.2vw, 1.55rem);
       font-weight: 800;
       line-height: 1.3;
     }
@@ -553,10 +669,18 @@
     .tl-day-sec {
       position: relative;
       padding-top: 6px;
-      scroll-margin-top: 54px;
+      scroll-margin-top: calc(var(--topbar-h) + var(--safe-top) + 12px);
     }
     .tl-day-sec.filtered-out, .sec-block.filtered-out {
       display: none !important;
+    }
+    .tl-day-sec.is-today > .day-card {
+      border-color: var(--blue-border);
+      box-shadow: 0 0 0 1px var(--blue-border), var(--shadow);
+    }
+    .tl-day-sec.is-today .tl-daynum {
+      background: var(--blue);
+      color: #fff;
     }
     .tl-marker {
       display: flex;
@@ -575,9 +699,9 @@
     .tl-dot.tour { background: var(--red); box-shadow: 0 0 0 3px var(--red-soft); }
     .tl-dot.both { background: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
     .tl-daynum {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 800;
-      padding: 1px 6px;
+      padding: 2px 7px;
       border-radius: 5px;
       background: var(--ink);
       color: var(--card);
@@ -585,16 +709,17 @@
     }
     .tl-date {
       font-weight: 700;
-      font-size: 14.5px;
+      font-size: 0.9375rem;
       color: var(--ink);
     }
     .tl-badges {
       display: flex;
-      gap: 5px;
+      align-items: center;
+      gap: 6px;
       margin-left: auto;
     }
     .kind-tag {
-      font-size: 11px;
+      font-size: 0.6875rem;
       font-weight: 700;
       padding: 2px 8px;
       border-radius: 999px;
@@ -607,16 +732,16 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      padding: 7px 10px;
+      padding: 8px 10px;
       background: var(--card-subtle);
       border: 1px solid var(--border);
       border-radius: 8px;
       margin-bottom: 8px;
-      font-size: 13.5px;
+      font-size: 0.875rem;
     }
     .itin-k {
       flex-shrink: 0;
-      font-size: 11.5px;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--ink-3);
       padding-top: 2px;
@@ -632,7 +757,7 @@
     .r-arrow { color: var(--ink-3); font-weight: 400; }
     .status-pill {
       display: inline-block;
-      font-size: 11px;
+      font-size: 0.6875rem;
       font-weight: 700;
       padding: 1px 6px;
       border-radius: 4px;
@@ -647,25 +772,26 @@
     .transport-card {
       border: 1px solid var(--border);
       border-radius: 9px;
-      padding: 9px 11px;
-      margin-bottom: 7px;
+      padding: 10px 11px;
+      margin-bottom: 8px;
       background: var(--card-subtle);
-      font-size: 13px;
+      font-size: 0.875rem;
       line-height: 1.6;
     }
     .transport-card.booked { border-left: 3px solid var(--green); }
     .transport-card.pending { border-left: 3px solid var(--amber); }
     .tc-head {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
-      margin-bottom: 4px;
+      gap: 8px;
+      margin-bottom: 6px;
     }
     .tc-badge {
-      font-size: 11px;
+      font-size: 0.6875rem;
       font-weight: 700;
-      padding: 1px 7px;
+      padding: 2px 7px;
       border-radius: 4px;
     }
     .tc-badge.booked { background: var(--green-soft); color: var(--green); }
@@ -674,56 +800,66 @@
       border: 1px solid var(--blue-border);
       background: var(--blue-soft);
       color: var(--blue);
-      border-radius: 6px;
-      padding: 2px 7px;
-      font-size: 11.5px;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
     /* ---------- Blue Navigation Targets (Roadbook Requirement) ---------- */
     .nav-strip {
       margin: 10px 0 12px;
-      padding: 9px 10px;
+      padding: 10px 10px;
       border-radius: 9px;
       background: var(--blue-soft);
       border: 1px solid var(--blue-border);
     }
     .nav-strip-lbl {
-      font-size: 11.5px;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--blue);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .nav-strip-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
     }
     .nav-chip {
       border: 1px solid var(--blue-border);
       background: var(--card);
       color: var(--blue);
       font-weight: 700;
-      font-size: 13px;
-      padding: 4px 9px;
+      font-size: 0.8125rem;
+      padding: 6px 12px;
       border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
     .nav-chip:active { transform: scale(0.97); }
     .nav-hl {
       display: inline;
       border: 0;
-      padding: 0 2px;
+      padding: 3px 3px;
       margin: 0;
+      border-radius: 4px;
       background: transparent;
       color: var(--blue);
-      font-size: 1.07em;
+      font-size: 1.04em;
       font-weight: 800;
       text-decoration: underline;
       text-decoration-color: var(--blue-border);
       text-underline-offset: 3px;
       cursor: pointer;
+    }
+    .nav-hl:active {
+      background: var(--blue-soft);
     }
 
     /* ---------- Integrated Drawers & Sub-Cards ---------- */
@@ -741,17 +877,17 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 6px 8px;
-      padding: 10px 12px;
+      padding: 11px 12px;
       background: var(--card-subtle);
       cursor: pointer;
       user-select: none;
     }
     .mod-sum::-webkit-details-marker { display: none; }
     .mod-title {
-      flex: 1;
-      min-width: 160px;
+      flex: 1 1 160px;
+      min-inline-size: 0;
       font-weight: 700;
-      font-size: 13.8px;
+      font-size: 0.9375rem;
       line-height: 1.4;
     }
     .chev {
@@ -773,7 +909,7 @@
     }
 
     .mod-badge {
-      font-size: 11px;
+      font-size: 0.6875rem;
       font-weight: 700;
       padding: 2px 7px;
       border-radius: 5px;
@@ -806,7 +942,7 @@
       margin-bottom: 8px;
     }
     .mc-sub {
-      font-size: 12.5px;
+      font-size: 0.8125rem;
       font-weight: 700;
       color: var(--ink-2);
     }
@@ -818,11 +954,13 @@
       background: var(--card-subtle);
     }
     .nested-drawer > summary {
-      padding: 8px 11px;
-      font-size: 13px;
+      padding: 10px 11px;
+      font-size: 0.875rem;
       font-weight: 700;
       color: var(--blue);
       cursor: pointer;
+      display: flex;
+      align-items: center;
     }
     .nested-body {
       padding: 10px 11px;
@@ -832,11 +970,11 @@
     /* ---------- Roadbook Typography & Image Grids ---------- */
     .rb-node-title {
       margin: 14px 0 7px;
-      padding: 4px 9px;
+      padding: 5px 9px;
       background: var(--blue-soft);
       border-left: 3px solid var(--blue);
       border-radius: 4px;
-      font-size: 15px;
+      font-size: 0.9375rem;
       font-weight: 800;
       color: var(--ink);
     }
@@ -847,26 +985,33 @@
       gap: 6px;
       margin-bottom: 8px;
     }
-    .rb-sub-bullet { padding-left: 12px; font-size: 14px; }
+    .rb-sub-bullet { padding-left: 12px; font-size: 0.9375rem; }
+    .rb-map-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-weight: 700;
+      margin: 10px 0 4px;
+    }
     .b-mark { color: var(--blue); font-weight: 700; flex-shrink: 0; }
     .rb-bridge-item {
-      padding: 8px 10px;
+      padding: 9px 10px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 8px;
       margin-bottom: 8px;
-      font-size: 14px;
+      font-size: 0.9375rem;
     }
 
     .rb-gallery {
       display: grid;
+      grid-template-columns: 1fr;
       gap: 8px;
       margin: 10px 0 12px;
     }
-    .rb-gallery.grid-2 { grid-template-columns: repeat(2, 1fr); }
-    .rb-gallery.grid-multi { grid-template-columns: repeat(2, 1fr); }
-    @media (max-width: 420px) {
-      .rb-gallery.grid-multi { grid-template-columns: 1fr; }
+    @container main-col (inline-size >= 22rem) {
+      .rb-gallery.grid-2,
+      .rb-gallery.grid-multi { grid-template-columns: repeat(2, 1fr); }
     }
     .rb-fig {
       margin: 0;
@@ -888,8 +1033,8 @@
       object-fit: contain;
     }
     .rb-fig figcaption {
-      padding: 6px 9px;
-      font-size: 11.5px;
+      padding: 7px 9px;
+      font-size: 0.75rem;
       color: var(--ink-2);
       display: flex;
       align-items: center;
@@ -899,7 +1044,7 @@
     }
     .zoom-hint {
       font-style: normal;
-      font-size: 10.5px;
+      font-size: 0.6875rem;
       color: var(--ink-3);
       flex-shrink: 0;
     }
@@ -932,60 +1077,72 @@
       margin-top: 10px;
     }
     .jump-link {
-      font-size: 12.5px;
+      font-size: 0.8125rem;
       font-weight: 700;
       color: var(--blue);
       text-decoration: none;
-      padding: 4px 9px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
       background: var(--blue-soft);
       border: 1px solid var(--blue-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* ---------- Day Inline Note Box ---------- */
     .day-note-box {
       margin-top: 12px;
-      padding: 10px 11px;
+      padding: 11px 11px;
       border-radius: 9px;
       background: var(--card-subtle);
       border: 1px dashed var(--border-strong);
     }
     .dnb-header {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      font-size: 12px;
-      margin-bottom: 6px;
+      gap: 4px 8px;
+      font-size: 0.75rem;
+      margin-bottom: 8px;
     }
     .dnb-title { font-weight: 700; color: var(--ink-2); }
-    .dnb-status { font-size: 11px; color: var(--ink-3); }
+    .dnb-status { font-size: 0.6875rem; color: var(--ink-3); }
     .dnb-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
-      margin-bottom: 6px;
+      gap: 8px;
+      margin-bottom: 8px;
     }
     .qtag {
       border: 1px solid var(--border);
       background: var(--card);
       color: var(--ink-2);
       border-radius: 999px;
-      font-size: 11px;
-      padding: 1px 7px;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
     .dnb-input {
       width: 100%;
+      min-block-size: 76px;
       border: 1px solid var(--border);
-      border-radius: 7px;
+      border-radius: 8px;
       background: var(--card);
-      padding: 7px 9px;
-      font-size: 13.5px;
+      padding: 8px 10px;
+      font-size: max(1rem, 1em);
       line-height: 1.55;
       resize: vertical;
+    }
+    .dnb-input:focus-visible {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px var(--blue-soft);
       outline: none;
     }
-    .dnb-input:focus { border-color: var(--blue); }
 
     /* ---------- Full Thinking / Concepts / Verification ---------- */
     .era-grid, .verify-grid {
@@ -994,7 +1151,7 @@
       gap: 10px;
       margin-top: 12px;
     }
-    @media (min-width: 720px) {
+    @container main-col (inline-size > 36rem) {
       .era-grid, .verify-grid { grid-template-columns: repeat(2, 1fr); }
     }
     .era-box, .verify-box, .distinction-box {
@@ -1005,7 +1162,7 @@
     }
     .era-box h4, .verify-box h4, .distinction-box h4 {
       margin: 0 0 8px;
-      font-size: 14.5px;
+      font-size: 0.9375rem;
       font-weight: 800;
     }
     .verify-box.confirm { border-left: 3px solid var(--green); }
@@ -1028,15 +1185,15 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 11px;
+      padding: 10px 11px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 0.9375rem;
     }
     .concept-card > summary::-webkit-details-marker { display: none; }
     .c-tag {
-      font-size: 10.5px;
+      font-size: 0.6875rem;
       font-weight: 700;
-      padding: 1px 6px;
+      padding: 2px 6px;
       border-radius: 4px;
       flex-shrink: 0;
     }
@@ -1094,7 +1251,7 @@
       border-radius: 11px;
       box-shadow: var(--shadow);
       overflow: hidden;
-      scroll-margin-top: 58px;
+      scroll-margin-top: calc(var(--topbar-h) + var(--safe-top) + 12px);
     }
     .claim-sum {
       list-style: none;
@@ -1111,10 +1268,10 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 6px 10px;
-      font-size: 14.5px;
+      font-size: 0.9375rem;
     }
     .verdict-pill {
-      font-size: 11px;
+      font-size: 0.6875rem;
       font-weight: 700;
       padding: 2px 8px;
       border-radius: 999px;
@@ -1131,24 +1288,24 @@
     .checklist {
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
       margin-top: 6px;
     }
     .chk-row {
       display: flex;
       align-items: flex-start;
-      gap: 9px;
-      padding: 8px 10px;
+      gap: 10px;
+      padding: 10px 11px;
       border-radius: 8px;
       border: 1px solid var(--border);
       background: var(--card-subtle);
-      font-size: 13.5px;
+      font-size: 0.875rem;
       cursor: pointer;
     }
-    .chk-row input { margin-top: 4px; accent-color: var(--blue); width: 16px; height: 16px; flex-shrink: 0; }
+    .chk-row input { margin-top: 3px; accent-color: var(--blue); width: 18px; height: 18px; flex-shrink: 0; }
     .chk-row.checked span { text-decoration: line-through; color: var(--ink-3); }
 
-    .sec-desc { font-size: 13.5px; color: var(--ink-2); margin: 0 0 12px; }
+    .sec-desc { font-size: 0.875rem; color: var(--ink-2); margin: 0 0 12px; }
     .new-note-form {
       padding: 12px;
       border-radius: 10px;
@@ -1158,36 +1315,54 @@
     }
     .nn-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 8px;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
     }
-    @media (max-width: 440px) {
-      .nn-row { grid-template-columns: 1fr; }
+    @container main-col (inline-size >= 25rem) {
+      .nn-row { grid-template-columns: 1fr 1fr; }
+    }
+    .nn-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-inline-size: 0;
+    }
+    .nn-field > label {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--ink-2);
     }
     .nn-row select, .new-note-form textarea {
       width: 100%;
       border: 1px solid var(--border-strong);
       border-radius: 8px;
       background: var(--card);
-      padding: 7px 9px;
-      font-size: 13.5px;
+      padding: 8px 10px;
+      font-size: max(1rem, 1em);
+    }
+    .nn-row select:focus-visible, .new-note-form textarea:focus-visible {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px var(--blue-soft);
       outline: none;
     }
     .nn-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 8px;
+      gap: 8px;
+      margin-top: 10px;
     }
     .btn-primary {
       border: 0;
       border-radius: 8px;
       background: var(--blue);
       color: #fff;
-      padding: 7px 13px;
-      font-size: 13px;
+      padding: 8px 14px;
+      font-size: 0.875rem;
       font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
     .btn-ghost {
@@ -1195,9 +1370,12 @@
       border-radius: 8px;
       background: var(--card);
       color: var(--ink-2);
-      padding: 6px 11px;
-      font-size: 12.5px;
+      padding: 8px 12px;
+      font-size: 0.8125rem;
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
     .notes-list {
@@ -1213,96 +1391,354 @@
     }
     .sni-head {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      font-size: 12px;
+      gap: 6px 8px;
+      font-size: 0.75rem;
       color: var(--ink-3);
       margin-bottom: 5px;
     }
     .sni-text {
       white-space: pre-wrap;
-      font-size: 14px;
+      font-size: 0.9375rem;
       color: var(--ink);
     }
     .sni-del {
       border: 0;
       background: transparent;
       color: var(--red);
-      font-size: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
-    /* ---------- Lightbox Modal & Toast ---------- */
-    .lightbox {
+    /* ---------- iPhone Fixed Bottom Bar (< 720px) ---------- */
+    .mobile-bottom-bar {
       position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(8, 12, 18, 0.92);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 48;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      padding: 4px max(8px, var(--safe-right)) max(4px, var(--safe-bottom)) max(8px, var(--safe-left));
+      transition: transform 0.2s ease;
+    }
+    body.kb-open .mobile-bottom-bar {
+      transform: translateY(110%);
+      pointer-events: none;
+    }
+    @media (min-width: 720px) {
+      .mobile-bottom-bar { display: none !important; }
+    }
+    .mbb-btn {
+      position: relative;
+      border: 0;
+      background: transparent;
+      border-radius: 10px;
+      min-block-size: 46px;
+      padding: 4px 2px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-    }
-    .lightbox[hidden] { display: none; }
-    .lb-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: rgba(0,0,0,0.5);
-      color: #fff;
-      border-radius: 999px;
-      padding: 6px 13px;
-      font-size: 13px;
+      gap: 2px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--ink-2);
       cursor: pointer;
     }
+    .mbb-btn:active, .mbb-btn.on {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+    .mbb-badge {
+      position: absolute;
+      top: 3px;
+      right: calc(50% - 22px);
+      margin-left: 0;
+    }
+
+    /* ---------- Shared Modal Dialog Scroll Containment ---------- */
+    dialog:modal {
+      overscroll-behavior: contain;
+    }
+    dialog::backdrop {
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
+
+    /* ---------- Swipeable Mobile Navigation Drawer (<dialog>) ---------- */
+    .Drawer {
+      --drawer-width: min(20em, 82dvw, 100dvw - 44px);
+      --drawer-backdrop: 0;
+      inset: 0;
+      width: auto;
+      height: auto;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      overflow: visible;
+      color: var(--ink);
+    }
+    .Drawer::backdrop {
+      background: #000;
+      opacity: calc(var(--drawer-backdrop) * 0.52);
+    }
+    .Drawer-scroller {
+      position: relative;
+      display: grid;
+      grid-template-columns: var(--drawer-width) 100%;
+      overflow-x: scroll;
+      overscroll-behavior: none;
+      scrollbar-width: none;
+      scroll-snap-type: x mandatory;
+    }
+    .Drawer-scroller::-webkit-scrollbar { display: none; }
+    @media (prefers-reduced-motion: no-preference) {
+      .Drawer-scroller {
+        scroll-behavior: smooth;
+      }
+    }
+    .Drawer-scroller::after {
+      content: "";
+      scroll-snap-align: end;
+      scroll-initial-target: nearest;
+    }
+    .Drawer-sheet {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100svh;
+      background: var(--rail-bg);
+      color: var(--ink);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+      scroll-snap-align: start;
+      padding-top: var(--safe-top);
+      padding-left: var(--safe-left);
+    }
+    .Drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+    .Drawer-title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+    }
+    .Drawer-body {
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+      padding: 6px 0 calc(28px + var(--safe-bottom));
+    }
+    .Drawer-body::-webkit-scrollbar { display: none; }
+    .Drawer-body .rail-tab {
+      padding: 10px 14px;
+    }
+    .Drawer-body .rail-tab .rt-sub {
+      white-space: normal;
+      overflow: visible;
+    }
+
+    @supports (animation-timeline: scroll()) {
+      .Drawer {
+        timeline-scope: --drawer-fade;
+        animation: fade-drawer-backdrop linear both;
+        animation-timeline: --drawer-fade;
+      }
+      .Drawer-scroller {
+        scroll-timeline: --drawer-fade x;
+      }
+      @property --drawer-backdrop {
+        syntax: '<number>';
+        inherits: true;
+        initial-value: 0;
+      }
+      @keyframes fade-drawer-backdrop {
+        0% { --drawer-backdrop: 1; }
+        100% { --drawer-backdrop: 0; }
+      }
+    }
+
+    /* ---------- Lightbox Modal (<dialog>) & Delete Confirm Dialog ---------- */
+    .lightbox {
+      margin: auto;
+      width: min(96dvw, 960px);
+      max-width: min(96dvw, 960px);
+      max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 20px);
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(13, 17, 23, 0.96);
+      color: #f3f4f6;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+    .lightbox[open] {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .lightbox::backdrop {
+      background: rgba(5, 8, 14, 0.88);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+    .lb-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .lb-counter {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #d1d5db;
+      font-variant-numeric: tabular-nums;
+      padding-left: 4px;
+    }
+    .lb-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lb-btn {
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f9fafb;
+      border-radius: 999px;
+      padding: 6px 13px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .lb-btn.on {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
     .lb-img-wrap {
-      max-width: 100%;
-      max-height: 80dvh;
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
       display: flex;
       align-items: center;
       justify-content: center;
+      touch-action: pan-x pan-y pinch-zoom;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.35);
     }
     .lb-img-wrap img {
       max-width: 100%;
-      max-height: 78dvh;
+      max-height: 68dvh;
       object-fit: contain;
       border-radius: 6px;
     }
+    .lb-img-wrap.zoomed {
+      display: block;
+    }
+    .lb-img-wrap.zoomed img {
+      width: 200%;
+      max-width: none;
+      max-height: none;
+      margin: 0 auto;
+    }
+    .lb-bottombar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+    }
     .lb-cap {
-      margin-top: 10px;
+      flex: 1;
+      min-width: 0;
       color: #e5e7eb;
-      font-size: 13px;
+      font-size: 0.8125rem;
       text-align: center;
-      max-width: 680px;
+      line-height: 1.45;
+    }
+    .lb-nav-btn {
+      flex-shrink: 0;
+      padding: 6px 12px;
+    }
+
+    .confirm-dialog {
+      margin: auto;
+      width: min(90dvw, 340px);
+      max-width: min(90dvw, 340px);
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+    }
+    .confirm-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.52);
     }
 
     .toast {
       position: fixed;
       left: 50%;
-      bottom: 22px;
+      bottom: calc(var(--bottombar-h) + var(--safe-bottom) + 14px);
       transform: translateX(-50%);
       z-index: 110;
+      max-width: calc(100dvw - 24px);
       background: rgba(17, 24, 39, 0.94);
       color: #fff;
       padding: 8px 15px;
       border-radius: 999px;
-      font-size: 13px;
+      font-size: 0.8125rem;
       font-weight: 600;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
       pointer-events: none;
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px 10px;
+      text-align: center;
       transition: opacity 0.2s;
     }
+    .toast.interactive { pointer-events: auto; }
     .toast[hidden] { display: none; }
+    .toast-link {
+      color: #93c5fd;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
     .page-footer {
       margin-top: 26px;
       padding-top: 14px;
       border-top: 1px solid var(--border);
-      font-size: 12px;
+      font-size: 0.75rem;
       color: var(--ink-3);
       line-height: 1.65;
     }
@@ -1313,27 +1749,30 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="tb-left">
-        <button type="button" class="icon-btn" id="btn-toggle-rail" title="展开或收起左侧时间线目录">☰ 目录</button>
+        <button type="button" class="icon-btn" id="btn-toggle-rail" aria-controls="left-rail" aria-expanded="true" title="展开或收起左侧时间线目录">☰ 目录</button>
         <h1 class="tb-title">滇西学术考察</h1>
+        <span class="tb-cur-sec" id="tb-cur-sec">引言</span>
       </div>
       <div class="tb-actions">
-        <button type="button" class="icon-btn" id="btn-search" title="全文检索"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>检索</button>
-        <button type="button" class="icon-btn" id="btn-expand-all" title="展开或折叠全部长文卡片">全展开</button>
-        <button type="button" class="icon-btn" id="btn-theme" title="切换浅色/深色阅读模式">☾</button>
+        <button type="button" class="icon-btn" id="btn-search" aria-label="打开全文检索" aria-controls="search-drawer" aria-expanded="false" title="全文检索"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>检索</button>
+        <button type="button" class="icon-btn" id="btn-expand-all" aria-label="展开或折叠全部长文卡片" title="展开或折叠全部长文卡片">全展开</button>
+        <button type="button" class="icon-btn" id="btn-theme" aria-label="切换浅色或深色阅读模式" title="切换浅色/深色阅读模式">☾</button>
       </div>
     </div>
     <div class="progress-track"><div class="progress-bar" id="read-progress"></div></div>
   </header>
 
   <!-- Sticky Search Drawer -->
-  <div class="search-bar" id="search-drawer" hidden>
+  <search class="search-bar" id="search-drawer" aria-label="全文检索" hidden>
     <div class="search-inner">
-      <input type="search" id="search-input" placeholder="输入关键词搜索（如：功果桥、准租、568、张纯如、瓦楞钢板）…" />
+      <label for="search-input" class="visually-hidden">搜索路书关键词</label>
+      <input type="search" id="search-input" name="q" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="search" placeholder="搜索：功果桥、准租、568、张纯如、瓦楞钢板…" />
       <span class="search-cnt" id="search-cnt">0 处</span>
-      <button type="button" class="icon-btn" id="btn-search-next">↓</button>
-      <button type="button" class="icon-btn" id="btn-search-close">✕</button>
+      <button type="button" class="icon-btn" id="btn-search-prev" aria-label="上一处匹配">↑</button>
+      <button type="button" class="icon-btn" id="btn-search-next" aria-label="下一处匹配">↓</button>
+      <button type="button" class="icon-btn" id="btn-search-close" aria-label="关闭检索">✕</button>
     </div>
-  </div>
+  </search>
 
   <!-- Main Two-Column App Shell -->
   <div class="app-shell">
@@ -3214,33 +3653,43 @@
 
     <div class="new-note-form">
       <div class="nn-row">
-        <select id="nn-day" aria-label="归属日期或主题">
-          <option value="行前与总论">行前与总论</option>
-          <option value="11.17 大理→漾濞">11.17 大理→漾濞</option>
-          <option value="11.18 漾濞→永平">11.18 漾濞→永平</option>
-          <option value="11.19 云龙·功果桥→保山">11.19 云龙·功果桥→保山</option>
-          <option value="11.20 惠通桥·松山">11.20 惠通桥·松山</option>
-          <option value="11.21 董家沟·史迪威公路">11.21 董家沟·史迪威公路</option>
-          <option value="11.22 国殇墓园·来凤山·李根源故居">11.22 国殇墓园·来凤山·李根源故居</option>
-          <option value="11.23 和顺古镇·结营">11.23 和顺古镇·结营</option>
-          <option value="11.24 盈江·瑞丽→芒市">11.24 盈江·瑞丽→芒市</option>
-          <option value="11.25 芒市→北京">11.25 芒市→北京</option>
-        </select>
-        <select id="nn-key" aria-label="分析视角">
-          <option value="现场观察">现场观察</option>
-          <option value="第三持存">第三持存</option>
-          <option value="中介穿透">中介穿透</option>
-          <option value="准租">准租</option>
-          <option value="印证论点">印证论点</option>
-          <option value="反驳/张力">反驳/张力</option>
-        </select>
+        <div class="nn-field">
+          <label for="nn-day">归属日程或主题</label>
+          <select id="nn-day" name="day">
+            <option value="行前与总论">行前与总论</option>
+            <option value="11.17 大理→漾濞">11.17 大理→漾濞</option>
+            <option value="11.18 漾濞→永平">11.18 漾濞→永平</option>
+            <option value="11.19 云龙·功果桥→保山">11.19 云龙·功果桥→保山</option>
+            <option value="11.20 惠通桥·松山">11.20 惠通桥·松山</option>
+            <option value="11.21 董家沟·史迪威公路">11.21 董家沟·史迪威公路</option>
+            <option value="11.22 国殇墓园·来凤山·李根源故居">11.22 国殇墓园·来凤山·李根源故居</option>
+            <option value="11.23 和顺古镇·结营">11.23 和顺古镇·结营</option>
+            <option value="11.24 盈江·瑞丽→芒市">11.24 盈江·瑞丽→芒市</option>
+            <option value="11.25 芒市→北京">11.25 芒市→北京</option>
+          </select>
+        </div>
+        <div class="nn-field">
+          <label for="nn-key">分析视角</label>
+          <select id="nn-key" name="key">
+            <option value="现场观察">现场观察</option>
+            <option value="第三持存">第三持存</option>
+            <option value="中介穿透">中介穿透</option>
+            <option value="准租">准租</option>
+            <option value="印证论点">印证论点</option>
+            <option value="反驳/张力">反驳/张力</option>
+          </select>
+        </div>
       </div>
-      <textarea id="nn-text" rows="3" placeholder="输入独立田野笔记（例如：与李筠/许小亮老师讨论纪要、碑文实录、访谈原话）…"></textarea>
+      <div class="nn-field">
+        <label for="nn-text">独立田野笔记内容</label>
+        <textarea id="nn-text" name="note_text" rows="3" placeholder="输入独立田野笔记（例如：与李筠/许小亮老师讨论纪要、碑文实录、访谈原话）…"></textarea>
+      </div>
       <div class="nn-actions">
         <button type="button" class="btn-primary" id="btn-add-note">+ 保存一条笔记</button>
         <button type="button" class="btn-ghost" id="btn-export-md">导出 Markdown</button>
+        <button type="button" class="btn-ghost" id="btn-share-notes">分享/存备忘录</button>
         <button type="button" class="btn-ghost" id="btn-export-json">备份 JSON</button>
-        <label class="btn-ghost file-lbl">导入恢复<input type="file" id="inp-import-json" accept=".json,application/json" hidden /></label>
+        <label class="btn-ghost file-lbl">导入恢复<input type="file" id="inp-import-json" accept=".json,application/json" class="visually-hidden" /></label>
       </div>
     </div>
 
@@ -3256,15 +3705,69 @@
     </main>
   </div>
 
-  <!-- Lightbox Viewer -->
-  <div class="lightbox" id="lightbox" hidden>
-    <button type="button" class="lb-close" id="lb-close">关闭 ✕</button>
-    <div class="lb-img-wrap"><img id="lb-img" alt="" /></div>
-    <div class="lb-cap" id="lb-cap"></div>
-  </div>
+  <!-- Swipeable Mobile Navigation Drawer (<dialog>) -->
+  <dialog class="Drawer" id="mobile-drawer" aria-label="时间线与专题导航">
+    <div class="Drawer-scroller">
+      <nav class="Drawer-sheet" aria-label="移动端章节目录">
+        <div class="Drawer-head">
+          <span class="Drawer-title">滇西考察 · 目录</span>
+          <button type="button" class="icon-btn" id="drawer-close" aria-label="关闭目录" autofocus>✕ 关闭</button>
+        </div>
+        <div class="Drawer-body" id="drawer-nav-list"></div>
+      </nav>
+    </div>
+  </dialog>
+
+  <!-- iPhone Fixed Bottom Bar -->
+  <nav class="mobile-bottom-bar" id="mobile-bottom-bar" aria-label="底部快捷栏">
+    <button type="button" class="mbb-btn" id="mb-drawer-btn" aria-controls="mobile-drawer" aria-expanded="false">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      <span>目录</span>
+    </button>
+    <button type="button" class="mbb-btn" id="mb-today-btn">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+      <span id="mb-today-lbl">今日</span>
+    </button>
+    <button type="button" class="mbb-btn" id="mb-note-btn">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+      <span>记笔记</span>
+      <span class="rail-note-cnt mbb-badge" hidden>0</span>
+    </button>
+    <button type="button" class="mbb-btn" id="mb-search-btn" aria-controls="search-drawer" aria-expanded="false">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <span>检索</span>
+    </button>
+  </nav>
+
+  <!-- Lightbox Viewer (<dialog>) -->
+  <dialog class="lightbox" id="lightbox" closedby="any" aria-label="图片放大预览">
+    <div class="lb-topbar">
+      <span class="lb-counter" id="lb-counter"></span>
+      <div class="lb-actions">
+        <button type="button" class="lb-btn" id="lb-zoom" aria-pressed="false">放大 2×</button>
+        <button type="button" class="lb-btn" id="lb-close" aria-label="关闭预览" autofocus>✕ 关闭</button>
+      </div>
+    </div>
+    <div class="lb-img-wrap" id="lb-img-wrap"><img id="lb-img" alt="" /></div>
+    <div class="lb-bottombar">
+      <button type="button" class="lb-btn lb-nav-btn" id="lb-prev" aria-label="上一张">‹ 上张</button>
+      <div class="lb-cap" id="lb-cap"></div>
+      <button type="button" class="lb-btn lb-nav-btn" id="lb-next" aria-label="下一张">下张 ›</button>
+    </div>
+  </dialog>
+
+  <!-- Delete Note Confirmation Dialog -->
+  <dialog class="confirm-dialog" id="confirm-del-dialog" aria-labelledby="confirm-del-title">
+    <h3 id="confirm-del-title" class="card-h3">确认删除这条田野笔记？</h3>
+    <p class="sec-desc">删除后无法从本地恢复，确定继续吗？</p>
+    <form method="dialog" class="nn-actions" style="justify-content:flex-end;">
+      <button value="cancel" class="btn-ghost" autofocus>取消</button>
+      <button value="delete" class="btn-primary" style="background:var(--red);">确认删除</button>
+    </form>
+  </dialog>
 
   <!-- Toast -->
-  <div class="toast" id="toast" hidden></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script>
     (function () {
@@ -3276,34 +3779,172 @@
         if (hashTarget) setTimeout(function () { hashTarget.scrollIntoView(); }, 30);
       }
 
-      // 2. Toast helper & Copy helper
+      // 2. Toast helper & Copy helper (with Gaode / Apple Maps quick jump for navigation targets)
       var toastEl = document.getElementById("toast");
       var toastTimer = null;
-      function showToast(msg) {
-        toastEl.textContent = msg;
-        toastEl.hidden = false;
+      function showToast(msg, opts) {
+        toastEl.textContent = "";
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () { toastEl.hidden = true; }, 2100);
-      }
-
-      function copyText(txt, label) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(txt).then(function () {
-            showToast(label || ("已复制：" + txt));
-          }).catch(function () { fallbackCopy(txt, label); });
+        if (opts && opts.place) {
+          toastEl.classList.add("interactive");
+          toastEl.appendChild(document.createTextNode("已复制「" + opts.place + "」"));
+          var amap = document.createElement("a");
+          amap.className = "toast-link";
+          amap.href = "https://uri.amap.com/search?keyword=" + encodeURIComponent(opts.place);
+          amap.target = "_blank";
+          amap.rel = "noopener noreferrer";
+          amap.textContent = "高德 ↗";
+          var appleMap = document.createElement("a");
+          appleMap.className = "toast-link";
+          appleMap.href = "https://maps.apple.com/?q=" + encodeURIComponent(opts.place);
+          appleMap.textContent = "苹果地图 ↗";
+          toastEl.appendChild(amap);
+          toastEl.appendChild(appleMap);
+          toastEl.hidden = false;
+          toastTimer = setTimeout(function () { toastEl.hidden = true; }, 3800);
         } else {
-          fallbackCopy(txt, label);
+          toastEl.classList.remove("interactive");
+          toastEl.textContent = msg;
+          toastEl.hidden = false;
+          toastTimer = setTimeout(function () { toastEl.hidden = true; }, 2100);
         }
       }
-      function fallbackCopy(txt, label) {
+
+      function copyText(txt, label, opts) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(function () {
+            showToast(label || ("已复制：" + txt), opts);
+          }).catch(function () { fallbackCopy(txt, label, opts); });
+        } else {
+          fallbackCopy(txt, label, opts);
+        }
+      }
+      function fallbackCopy(txt, label, opts) {
         var ta = document.createElement("textarea");
         ta.value = txt;
         ta.style.position = "fixed";
         ta.style.opacity = "0";
         document.body.appendChild(ta);
         ta.select();
-        try { document.execCommand("copy"); showToast(label || ("已复制：" + txt)); } catch (e) {}
+        try { document.execCommand("copy"); showToast(label || ("已复制：" + txt), opts); } catch (e) {}
         document.body.removeChild(ta);
+      }
+
+      // 2b. Native <dialog> Lightbox Viewer with 2x Zoom, Prev/Next & Safari Fallback
+      var lb = document.getElementById("lightbox");
+      var lbImg = document.getElementById("lb-img");
+      var lbImgWrap = document.getElementById("lb-img-wrap");
+      var lbCap = document.getElementById("lb-cap");
+      var lbCounter = document.getElementById("lb-counter");
+      var lbZoomBtn = document.getElementById("lb-zoom");
+      var lbPrevBtn = document.getElementById("lb-prev");
+      var lbNextBtn = document.getElementById("lb-next");
+      var galleryItems = [];
+      document.querySelectorAll("[data-lightbox]").forEach(function (el) {
+        var k = el.getAttribute("data-lightbox");
+        if (k) {
+          galleryItems.push({
+            el: el,
+            key: k,
+            cap: el.getAttribute("data-caption") || ""
+          });
+        }
+      });
+      var lbIdx = 0;
+      var lbZoomed = false;
+
+      function setLightboxZoom(zoomOn) {
+        lbZoomed = !!zoomOn;
+        lbImgWrap.classList.toggle("zoomed", lbZoomed);
+        lbZoomBtn.classList.toggle("on", lbZoomed);
+        lbZoomBtn.setAttribute("aria-pressed", lbZoomed ? "true" : "false");
+        lbZoomBtn.textContent = lbZoomed ? "适应屏幕 1×" : "放大 2×";
+        if (!lbZoomed) {
+          lbImgWrap.scrollLeft = 0;
+          lbImgWrap.scrollTop = 0;
+        }
+      }
+
+      function showLightboxAt(idx) {
+        if (!galleryItems.length) return;
+        lbIdx = (idx + galleryItems.length) % galleryItems.length;
+        var item = galleryItems[lbIdx];
+        lbImg.src = "./assets/images/" + item.key + ".webp";
+        lbImg.alt = item.cap || "考察图片预览";
+        lbCap.textContent = item.cap;
+        lbCounter.textContent = (lbIdx + 1) + " / " + galleryItems.length;
+        lbPrevBtn.hidden = galleryItems.length <= 1;
+        lbNextBtn.hidden = galleryItems.length <= 1;
+        setLightboxZoom(false);
+        if (!lb.open) lb.showModal();
+      }
+
+      lbZoomBtn.addEventListener("click", function () {
+        setLightboxZoom(!lbZoomed);
+      });
+      lbPrevBtn.addEventListener("click", function () {
+        showLightboxAt(lbIdx - 1);
+      });
+      lbNextBtn.addEventListener("click", function () {
+        showLightboxAt(lbIdx + 1);
+      });
+      document.getElementById("lb-close").addEventListener("click", function () {
+        lb.close();
+      });
+
+      var lastTapTime = 0;
+      var touchStartX = 0;
+      var touchStartY = 0;
+      var touchSwipeActive = false;
+      lbImgWrap.addEventListener("touchstart", function (e) {
+        if (e.touches.length !== 1 || lbZoomed) {
+          touchSwipeActive = false;
+          return;
+        }
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchSwipeActive = true;
+      }, { passive: true });
+      lbImgWrap.addEventListener("touchend", function (e) {
+        if (e.changedTouches.length !== 1) return;
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        var dy = e.changedTouches[0].clientY - touchStartY;
+        if (touchSwipeActive && !lbZoomed && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+          showLightboxAt(dx < 0 ? lbIdx + 1 : lbIdx - 1);
+          touchSwipeActive = false;
+          return;
+        }
+        touchSwipeActive = false;
+        if (Math.abs(dx) < 12 && Math.abs(dy) < 12) {
+          var now = Date.now();
+          if (now - lastTapTime < 280) {
+            setLightboxZoom(!lbZoomed);
+            lastTapTime = 0;
+          } else {
+            lastTapTime = now;
+          }
+        }
+      }, { passive: true });
+      lbImg.addEventListener("dblclick", function () {
+        setLightboxZoom(!lbZoomed);
+      });
+      lb.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowLeft") { e.preventDefault(); showLightboxAt(lbIdx - 1); }
+        else if (e.key === "ArrowRight") { e.preventDefault(); showLightboxAt(lbIdx + 1); }
+      });
+
+      if (!("closedBy" in HTMLDialogElement.prototype)) {
+        lb.addEventListener("click", function (event) {
+          if (event.target !== lb) return;
+          var rect = lb.getBoundingClientRect();
+          var isDialogContent = (
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width
+          );
+          if (!isDialogContent) lb.close();
+        });
       }
 
       document.addEventListener("click", function (e) {
@@ -3312,60 +3953,125 @@
           e.preventDefault();
           e.stopPropagation();
           var val = copyBtn.getAttribute("data-copy");
-          copyText(val, "已复制导航/单号：" + val);
+          var isNavPlace = !copyBtn.classList.contains("copy-chip") && !/^\d+$/.test(val);
+          copyText(val, "已复制导航/单号：" + val, isNavPlace ? { place: val } : null);
           return;
         }
         var lbTrigger = e.target.closest("[data-lightbox]");
         if (lbTrigger) {
-          var key = lbTrigger.getAttribute("data-lightbox");
-          var cap = lbTrigger.getAttribute("data-caption") || "";
-          if (key) {
-            document.getElementById("lb-img").src = "./assets/images/" + key + ".webp";
-            document.getElementById("lb-cap").textContent = cap;
-            document.getElementById("lightbox").hidden = false;
+          var idx = galleryItems.findIndex(function (it) { return it.el === lbTrigger; });
+          if (idx !== -1) {
+            showLightboxAt(idx);
+          } else {
+            var key = lbTrigger.getAttribute("data-lightbox");
+            var cap = lbTrigger.getAttribute("data-caption") || "";
+            if (key) {
+              lbImg.src = "./assets/images/" + key + ".webp";
+              lbImg.alt = cap || "图片预览";
+              lbCap.textContent = cap;
+              lbCounter.textContent = "";
+              setLightboxZoom(false);
+              if (!lb.open) lb.showModal();
+            }
           }
         }
       });
 
-      var lb = document.getElementById("lightbox");
-      document.getElementById("lb-close").addEventListener("click", function () { lb.hidden = true; });
-      lb.addEventListener("click", function (e) { if (e.target === lb) lb.hidden = true; });
-      document.addEventListener("keydown", function (e) { if (e.key === "Escape") lb.hidden = true; });
-
-      // 3. Live Countdown in Asia/Shanghai (UTC+8)
-      (function updateCountdown() {
+      // 3. Live Countdown & Today Highlight in Asia/Shanghai (UTC+8)
+      var todayMmdd = "";
+      var todayDayId = "";
+      var tripPhase = "during";
+      (function updateCountdownAndToday() {
         var pill = document.getElementById("countdown-pill");
-        if (!pill) return;
         var nowUtc = Date.now();
         var bjNow = new Date(nowUtc + 8 * 3600 * 1000);
         var y = bjNow.getUTCFullYear(), m = bjNow.getUTCMonth(), d = bjNow.getUTCDate();
         var todayDays = Math.floor(Date.UTC(y, m, d) / 86400000);
-        var startDays = Math.floor(Date.UTC(2026, 10, 17) / 86400000); // Nov is month 10
+        var startDays = Math.floor(Date.UTC(2026, 10, 17) / 86400000);
         var endDays = Math.floor(Date.UTC(2026, 10, 25) / 86400000);
-        if (todayDays < startDays) {
-          pill.textContent = "距出发还有 " + (startDays - todayDays) + " 天";
-        } else if (todayDays <= endDays) {
-          pill.textContent = "考察进行中 · 第 " + (todayDays - startDays + 1) + " / 9 天";
-        } else {
-          pill.textContent = "考察已圆满收官";
+        if (pill) {
+          if (todayDays < startDays) {
+            pill.textContent = "距出发还有 " + (startDays - todayDays) + " 天";
+          } else if (todayDays <= endDays) {
+            pill.textContent = "考察进行中 · 第 " + (todayDays - startDays + 1) + " / 9 天";
+          } else {
+            pill.textContent = "考察已圆满收官";
+          }
+        }
+        if (todayDays < startDays) tripPhase = "before";
+        else if (todayDays > endDays) tripPhase = "after";
+
+        var mm = (m + 1 < 10 ? "0" : "") + (m + 1);
+        var dd = (d < 10 ? "0" : "") + d;
+        var candidateId = "day-" + mm + dd;
+        var todayEl = document.getElementById(candidateId);
+        if (todayEl) {
+          todayMmdd = mm + dd;
+          todayDayId = candidateId;
+          todayEl.classList.add("is-today");
+          var badges = todayEl.querySelector(".tl-badges");
+          if (badges) {
+            var tTag = document.createElement("span");
+            tTag.className = "today-tag";
+            tTag.textContent = "今日";
+            badges.insertBefore(tTag, badges.firstChild);
+          }
+          var rmToday = document.querySelector('.route-mini-scroll .rm-stop[href="#' + candidateId + '"]');
+          var rms = document.querySelector(".route-mini-scroll");
+          if (rmToday) {
+            rmToday.classList.add("is-today");
+            if (rms) {
+              rms.scrollLeft = Math.max(0, rmToday.offsetLeft - rms.clientWidth / 2 + rmToday.clientWidth / 2);
+            }
+          }
+          var railTodayTop = document.querySelector('#left-rail .rail-tab[data-target="' + candidateId + '"] .rt-top');
+          if (railTodayTop) {
+            var rTag = document.createElement("span");
+            rTag.className = "today-tag";
+            rTag.textContent = "今日";
+            railTodayTop.appendChild(rTag);
+          }
         }
       })();
 
-      // 4. Theme Toggle & Rail Toggle & Expand-All Toggle
+      // 4. Theme Toggle (Sync with prefers-color-scheme & Safari theme-color), Rail Toggle & Expand-All
       var STORAGE_PREFIX = "dianxi_2026_";
       var btnTheme = document.getElementById("btn-theme");
-      if (localStorage.getItem(STORAGE_PREFIX + "theme") === "dark") {
-        document.documentElement.classList.add("dark");
-        btnTheme.textContent = "☀";
+      var metaLight = document.getElementById("meta-theme-light");
+      var metaDark = document.getElementById("meta-theme-dark");
+
+      function applyTheme(isDark, persist) {
+        document.documentElement.classList.toggle("dark", isDark);
+        btnTheme.textContent = isDark ? "☀" : "☾";
+        btnTheme.setAttribute("aria-pressed", isDark ? "true" : "false");
+        var themeColor = isDark ? "#161c24" : "#ffffff";
+        if (metaLight) metaLight.setAttribute("content", themeColor);
+        if (metaDark) metaDark.setAttribute("content", themeColor);
+        if (persist) localStorage.setItem(STORAGE_PREFIX + "theme", isDark ? "dark" : "light");
+      }
+
+      var savedTheme = localStorage.getItem(STORAGE_PREFIX + "theme");
+      var colorSchemeMq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+      if (savedTheme === "dark" || savedTheme === "light") {
+        applyTheme(savedTheme === "dark", false);
+      } else if (colorSchemeMq) {
+        applyTheme(colorSchemeMq.matches, false);
+      }
+      if (colorSchemeMq && colorSchemeMq.addEventListener) {
+        colorSchemeMq.addEventListener("change", function (e) {
+          if (!localStorage.getItem(STORAGE_PREFIX + "theme")) {
+            applyTheme(e.matches, false);
+          }
+        });
       }
       btnTheme.addEventListener("click", function () {
-        var isDark = document.documentElement.classList.toggle("dark");
-        btnTheme.textContent = isDark ? "☀" : "☾";
-        localStorage.setItem(STORAGE_PREFIX + "theme", isDark ? "dark" : "light");
+        applyTheme(!document.documentElement.classList.contains("dark"), true);
       });
 
-      document.getElementById("btn-toggle-rail").addEventListener("click", function () {
-        document.body.classList.toggle("rail-collapsed");
+      var btnToggleRail = document.getElementById("btn-toggle-rail");
+      btnToggleRail.addEventListener("click", function () {
+        var collapsed = document.body.classList.toggle("rail-collapsed");
+        btnToggleRail.setAttribute("aria-expanded", collapsed ? "false" : "true");
       });
 
       var allExpanded = false;
@@ -3377,6 +4083,108 @@
         });
         btnExpandAll.textContent = allExpanded ? "折叠长文" : "全展开";
         btnExpandAll.classList.toggle("on", allExpanded);
+      });
+
+      // 4b. Clone Left Rail into Swipeable Mobile Navigation Drawer (<dialog>)
+      var leftRailEl = document.getElementById("left-rail");
+      var drawer = document.getElementById("mobile-drawer");
+      var drawerScroller = drawer.querySelector(".Drawer-scroller");
+      var drawerSheet = drawer.querySelector(".Drawer-sheet");
+      var drawerCloseBtn = document.getElementById("drawer-close");
+      var drawerNavList = document.getElementById("drawer-nav-list");
+      var mbDrawerBtn = document.getElementById("mb-drawer-btn");
+
+      Array.from(leftRailEl.children).forEach(function (child) {
+        var clone = child.cloneNode(true);
+        if (clone.id) clone.removeAttribute("id");
+        clone.querySelectorAll("[id]").forEach(function (n) { n.removeAttribute("id"); });
+        drawerNavList.appendChild(clone);
+      });
+
+      var drawerState = "closed";
+      var pendingNavTarget = null;
+      var openGuardTimer = null;
+
+      async function openDrawer() {
+        if (drawer.open) return;
+        drawerState = "opening";
+        drawer.showModal();
+        mbDrawerBtn.setAttribute("aria-expanded", "true");
+        clearTimeout(openGuardTimer);
+        openGuardTimer = setTimeout(function () {
+          if (drawerState === "opening") drawerState = "open";
+        }, 450);
+
+        if (!CSS.supports("scroll-initial-target", "nearest")) {
+          drawerScroller.scrollTo({ left: drawerScroller.offsetWidth, behavior: "instant" });
+          await new Promise(function (r) {
+            requestAnimationFrame(function () { requestAnimationFrame(r); });
+          });
+          if (!drawer.open) return;
+        }
+        drawerScroller.scrollTo({ left: 0, behavior: "auto" });
+      }
+
+      function closeDrawer() {
+        if (!drawer.open) return;
+        drawerState = "closing";
+        drawerScroller.scrollTo({ left: drawerScroller.offsetWidth, behavior: "auto" });
+      }
+
+      function onDrawerOpened() {
+        clearTimeout(openGuardTimer);
+        drawerState = "open";
+        mbDrawerBtn.setAttribute("aria-expanded", "true");
+      }
+
+      function onDrawerClosed() {
+        clearTimeout(openGuardTimer);
+        if (!drawer.open) return;
+        drawerState = "closed";
+        drawer.close();
+        mbDrawerBtn.setAttribute("aria-expanded", "false");
+        if (pendingNavTarget) {
+          var targetId = pendingNavTarget;
+          pendingNavTarget = null;
+          var targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            setTimeout(function () {
+              targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 30);
+          }
+        }
+      }
+
+      if (!CSS.supports("animation-timeline: scroll()")) {
+        drawerScroller.addEventListener("scroll", function () {
+          var w = drawerSheet.offsetWidth || 1;
+          var ratio = Math.max(0, Math.min(1, 1 - drawerScroller.scrollLeft / w));
+          drawer.style.setProperty("--drawer-backdrop", String(ratio));
+        }, { passive: true });
+      }
+
+      var visibleThreshold = 1 / Math.max(320, window.innerWidth);
+      var drawerObserver = new IntersectionObserver(function (entries) {
+        var entry = entries[entries.length - 1];
+        if (!entry || !drawer.open) return;
+        if (entry.intersectionRatio >= 0.99) {
+          onDrawerOpened();
+        } else if (entry.intersectionRatio < visibleThreshold && (drawerState === "open" || drawerState === "closing")) {
+          onDrawerClosed();
+        }
+      }, { root: drawer, threshold: [visibleThreshold, 1] });
+      drawerObserver.observe(drawerSheet);
+
+      mbDrawerBtn.addEventListener("click", openDrawer);
+      drawerCloseBtn.addEventListener("click", closeDrawer);
+      drawer.addEventListener("click", function (event) {
+        if (!drawerSheet.contains(event.target)) closeDrawer();
+      });
+      drawer.addEventListener("cancel", function (event) {
+        if (event.cancelable) {
+          event.preventDefault();
+          closeDrawer();
+        }
       });
 
       // 5. Filter Pills (全部 / 个人行程 / 考察团)
@@ -3405,26 +4213,61 @@
         b.addEventListener("click", function () { applyFilter(b.getAttribute("data-filter")); });
       });
 
-      // If user clicks a dimmed tab on left rail, reset filter to "all" so target is visible
       railTabs.forEach(function (rt) {
-        rt.addEventListener("click", function () {
+        rt.addEventListener("click", function (e) {
           if (rt.classList.contains("dimmed")) applyFilter("all");
+          if (drawerNavList.contains(rt)) {
+            e.preventDefault();
+            pendingNavTarget = rt.getAttribute("data-target");
+            closeDrawer();
+          }
         });
       });
 
-      // 6. Scrollspy: Sync Left Rail Active Tab + Reading Progress Bar
-      var trackedIds = Array.from(railTabs).map(function (a) { return a.getAttribute("data-target"); });
-      var leftRailEl = document.getElementById("left-rail");
+      // Bottom Bar Quick Jumps ("今日" & "记笔记")
+      document.getElementById("mb-today-btn").addEventListener("click", function () {
+        applyFilter("all");
+        var destId = todayDayId || (tripPhase === "before" ? "day-1117" : "sec-intro");
+        var destEl = document.getElementById(destId);
+        if (destEl) destEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      document.getElementById("mb-note-btn").addEventListener("click", function () {
+        applyFilter("all");
+        var noteTa = todayMmdd ? document.getElementById("note-day-" + todayMmdd) : null;
+        var targetInput = noteTa || document.getElementById("nn-text");
+        if (targetInput) {
+          targetInput.scrollIntoView({ behavior: "smooth", block: "center" });
+          setTimeout(function () {
+            try { targetInput.focus({ preventScroll: true }); } catch (err) { targetInput.focus(); }
+          }, 260);
+        }
+      });
+
+      // 6. Scrollspy: Sync Left Rail & Mobile Drawer Active Tab + Topbar Pill + Progress Bar
+      var desktopRailTabs = Array.from(leftRailEl.querySelectorAll(".rail-tab"));
+      var trackedIds = desktopRailTabs.map(function (a) { return a.getAttribute("data-target"); });
+      var secTitleMap = {};
+      desktopRailTabs.forEach(function (a) {
+        var tid = a.getAttribute("data-target");
+        var bEl = a.querySelector(".rt-top b");
+        var subEl = a.querySelector(".rt-sub");
+        secTitleMap[tid] = bEl ? (bEl.textContent + (subEl ? " · " + subEl.textContent : "")) : "滇西考察";
+      });
+      var tbCurSec = document.getElementById("tb-cur-sec");
       var progressBar = document.getElementById("read-progress");
       var activeId = "sec-intro";
 
       function setActiveTab(id) {
         if (!id || id === activeId) return;
         activeId = id;
+        if (tbCurSec && secTitleMap[id]) {
+          tbCurSec.textContent = secTitleMap[id];
+        }
         railTabs.forEach(function (a) {
           var match = a.getAttribute("data-target") === id;
           a.classList.toggle("active", match);
-          if (match && leftRailEl) {
+          if (match && leftRailEl.contains(a) && leftRailEl.offsetParent !== null) {
             var top = a.offsetTop - leftRailEl.clientHeight / 2 + a.clientHeight / 2;
             leftRailEl.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
           }
@@ -3440,7 +4283,7 @@
           var pct = docH > 0 ? Math.min(100, Math.max(0, (window.scrollY / docH) * 100)) : 0;
           progressBar.style.width = pct.toFixed(1) + "%";
 
-          var threshold = 115;
+          var threshold = window.innerWidth < 720 ? 105 : 115;
           var chosen = trackedIds[0];
           for (var i = 0; i < trackedIds.length; i++) {
             var el = document.getElementById(trackedIds[i]);
@@ -3474,11 +4317,17 @@
         });
       });
 
-      // 8. Field Notes (Per-Day Inline + Standalone Notes Hub)
+      // 8. Field Notes (Per-Day Inline + Standalone Notes Hub + Confirm Delete + Share)
       var dayNotes = {};
       var extraNotes = [];
       try { dayNotes = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "day_notes") || "{}"); } catch (e) {}
       try { extraNotes = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "extra_notes") || "[]"); } catch (e) {}
+
+      function autoSizeTextarea(ta) {
+        if (!ta) return;
+        ta.style.height = "auto";
+        ta.style.height = Math.max(76, ta.scrollHeight) + "px";
+      }
 
       function saveAllNotes() {
         localStorage.setItem(STORAGE_PREFIX + "day_notes", JSON.stringify(dayNotes));
@@ -3488,10 +4337,19 @@
 
       document.querySelectorAll(".dnb-input").forEach(function (ta) {
         var id = ta.getAttribute("data-note-id");
+        var box = ta.closest(".day-note-box");
+        var titleEl = box ? box.querySelector(".dnb-title") : null;
+        if (titleEl) {
+          var titleId = "dnb-title-" + id;
+          titleEl.id = titleId;
+          ta.setAttribute("aria-labelledby", titleId);
+        }
         if (dayNotes[id] && dayNotes[id].text) {
           ta.value = dayNotes[id].text;
         }
+        autoSizeTextarea(ta);
         ta.addEventListener("input", function () {
+          autoSizeTextarea(ta);
           dayNotes[id] = {
             label: ta.getAttribute("data-note-label"),
             text: ta.value,
@@ -3501,6 +4359,12 @@
           if (st) st.textContent = "已保存 " + dayNotes[id].updatedAt.split(" ")[1];
           saveAllNotes();
         });
+      });
+
+      var nnTextEl = document.getElementById("nn-text");
+      autoSizeTextarea(nnTextEl);
+      nnTextEl.addEventListener("input", function () {
+        autoSizeTextarea(nnTextEl);
       });
 
       document.querySelectorAll("[data-tag-bar] .qtag").forEach(function (btn) {
@@ -3516,8 +4380,7 @@
       });
 
       document.getElementById("btn-add-note").addEventListener("click", function () {
-        var textEl = document.getElementById("nn-text");
-        var txt = textEl.value.trim();
+        var txt = nnTextEl.value.trim();
         if (!txt) { showToast("请先输入笔记内容"); return; }
         extraNotes.unshift({
           id: "n_" + Date.now(),
@@ -3526,14 +4389,15 @@
           text: txt,
           createdAt: new Date().toLocaleString("zh-CN", { hour12: false })
         });
-        textEl.value = "";
+        nnTextEl.value = "";
+        autoSizeTextarea(nnTextEl);
         saveAllNotes();
         showToast("已保存田野笔记");
       });
 
       function renderNotesHub() {
         var container = document.getElementById("notes-summary-list");
-        var cntBadge = document.getElementById("rail-note-cnt");
+        var cntBadges = document.querySelectorAll(".rail-note-cnt");
         var items = [];
         Object.keys(dayNotes).sort().forEach(function (k) {
           var dn = dayNotes[k];
@@ -3557,10 +4421,10 @@
           });
         });
 
-        if (cntBadge) {
-          cntBadge.textContent = String(items.length);
-          cntBadge.hidden = items.length === 0;
-        }
+        cntBadges.forEach(function (badge) {
+          badge.textContent = String(items.length);
+          badge.hidden = items.length === 0;
+        });
 
         if (items.length === 0) {
           container.innerHTML = '<p class="meta-annot" style="margin:4px 0 0;">暂无本地田野笔记。你可以在上方每天行程末尾随手记录，或在此处新增条目。</p>';
@@ -3570,34 +4434,35 @@
         container.innerHTML = items.map(function (it) {
           var actionBtn = it.type === "extra"
             ? '<button type="button" class="sni-del" data-del-note="' + it.id + '">删除</button>'
-            : '<a href="#' + it.ref + '" class="jump-link" style="padding:1px 7px;font-size:11.5px;">定位当天</a>';
+            : '<a href="#' + it.ref + '" class="jump-link" style="padding:3px 9px;font-size:0.75rem;">定位当天</a>';
           var safeHead = it.head.replace(/</g, "&lt;");
           var safeText = it.text.replace(/</g, "&lt;");
           return '<div class="saved-note-item"><div class="sni-head"><strong>' + safeHead + '</strong><span>' + it.time + ' ' + actionBtn + '</span></div><div class="sni-text">' + safeText + '</div></div>';
         }).join("");
       }
 
+      var confirmDelDialog = document.getElementById("confirm-del-dialog");
+      var pendingDeleteId = null;
       document.getElementById("notes-summary-list").addEventListener("click", function (e) {
         var del = e.target.closest("[data-del-note]");
         if (!del) return;
-        var targetId = del.getAttribute("data-del-note");
-        extraNotes = extraNotes.filter(function (n) { return n.id !== targetId; });
-        saveAllNotes();
+        pendingDeleteId = del.getAttribute("data-del-note");
+        confirmDelDialog.returnValue = "";
+        confirmDelDialog.showModal();
+      });
+      confirmDelDialog.addEventListener("close", function () {
+        if (confirmDelDialog.returnValue === "delete" && pendingDeleteId) {
+          extraNotes = extraNotes.filter(function (n) { return n.id !== pendingDeleteId; });
+          saveAllNotes();
+          showToast("已删除笔记");
+        }
+        pendingDeleteId = null;
+        confirmDelDialog.returnValue = "";
       });
 
       renderNotesHub();
 
-      function downloadBlob(filename, content, mime) {
-        var blob = new Blob([content], { type: mime });
-        var a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
-      }
-
-      document.getElementById("btn-export-md").addEventListener("click", function () {
+      function buildNotesMarkdown() {
         var lines = ["# 滇西学术考察 · 田野笔记导出", "", "- 导出时间：" + new Date().toLocaleString("zh-CN", { hour12: false }), ""];
         Object.keys(dayNotes).sort().forEach(function (k) {
           var dn = dayNotes[k];
@@ -3613,7 +4478,37 @@
             lines.push("", en.text, "");
           });
         }
-        downloadBlob("滇西学术考察-田野笔记.md", lines.join("\n"), "text/markdown;charset=utf-8");
+        return lines.join("\n");
+      }
+
+      function downloadBlob(filename, content, mime) {
+        var blob = new Blob([content], { type: mime });
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+      }
+
+      document.getElementById("btn-export-md").addEventListener("click", function () {
+        downloadBlob("滇西学术考察-田野笔记.md", buildNotesMarkdown(), "text/markdown;charset=utf-8");
+      });
+
+      document.getElementById("btn-share-notes").addEventListener("click", function () {
+        var md = buildNotesMarkdown();
+        if (navigator.share) {
+          navigator.share({
+            title: "滇西学术考察 · 田野笔记",
+            text: md
+          }).catch(function (err) {
+            if (err && err.name !== "AbortError") {
+              copyText(md, "已复制全部笔记 Markdown");
+            }
+          });
+        } else {
+          copyText(md, "已复制全部笔记 Markdown");
+        }
       });
 
       document.getElementById("btn-export-json").addEventListener("click", function () {
@@ -3634,6 +4529,7 @@
             document.querySelectorAll(".dnb-input").forEach(function (ta) {
               var id = ta.getAttribute("data-note-id");
               ta.value = (dayNotes[id] && dayNotes[id].text) ? dayNotes[id].text : "";
+              autoSizeTextarea(ta);
             });
             showToast("笔记备份已恢复");
           } catch (err) {
@@ -3643,10 +4539,31 @@
         reader.readAsText(file);
       });
 
+      // Hide mobile bottom bar while virtual keyboard is active on text/select controls
+      var kbTimer = null;
+      var kbFieldSel = 'input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea, select';
+      document.addEventListener("focusin", function (e) {
+        if (e.target && e.target.matches && e.target.matches(kbFieldSel)) {
+          clearTimeout(kbTimer);
+          document.body.classList.add("kb-open");
+        }
+      });
+      document.addEventListener("focusout", function () {
+        clearTimeout(kbTimer);
+        kbTimer = setTimeout(function () {
+          var active = document.activeElement;
+          if (!active || !active.matches || !active.matches(kbFieldSel)) {
+            document.body.classList.remove("kb-open");
+          }
+        }, 80);
+      });
+
       // 9. Full-Text Instant Search
       var searchDrawer = document.getElementById("search-drawer");
       var searchInput = document.getElementById("search-input");
       var searchCnt = document.getElementById("search-cnt");
+      var btnSearchTop = document.getElementById("btn-search");
+      var mbSearchBtn = document.getElementById("mb-search-btn");
       var hits = [];
       var hitIdx = -1;
 
@@ -3699,27 +4616,51 @@
 
       function jumpHit(idx) {
         if (!hits.length) return;
+        if (hitIdx >= 0 && hits[hitIdx]) hits[hitIdx].classList.remove("current");
         hitIdx = (idx + hits.length) % hits.length;
         var el = hits[hitIdx];
+        el.classList.add("current");
         var det = el.closest("details");
         while (det) { det.open = true; det = det.parentElement ? det.parentElement.closest("details") : null; }
         el.scrollIntoView({ behavior: "smooth", block: "center" });
         searchCnt.textContent = (hitIdx + 1) + "/" + hits.length;
       }
 
-      document.getElementById("btn-search").addEventListener("click", function () {
-        var open = searchDrawer.hidden;
-        searchDrawer.hidden = !open;
-        if (open) searchInput.focus();
-        else clearHighlights();
-      });
+      function toggleSearch(forceOpen) {
+        var willOpen = typeof forceOpen === "boolean" ? forceOpen : searchDrawer.hidden;
+        searchDrawer.hidden = !willOpen;
+        btnSearchTop.setAttribute("aria-expanded", willOpen ? "true" : "false");
+        btnSearchTop.classList.toggle("on", willOpen);
+        mbSearchBtn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+        mbSearchBtn.classList.toggle("on", willOpen);
+        if (willOpen) {
+          searchInput.focus();
+        } else {
+          searchInput.value = "";
+          clearHighlights();
+        }
+      }
+
+      btnSearchTop.addEventListener("click", function () { toggleSearch(); });
+      mbSearchBtn.addEventListener("click", function () { toggleSearch(); });
       document.getElementById("btn-search-close").addEventListener("click", function () {
-        searchDrawer.hidden = true;
-        searchInput.value = "";
-        clearHighlights();
+        toggleSearch(false);
+      });
+      document.getElementById("btn-search-prev").addEventListener("click", function () {
+        jumpHit(hitIdx - 1);
       });
       document.getElementById("btn-search-next").addEventListener("click", function () {
         jumpHit(hitIdx + 1);
+      });
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !e.isComposing) {
+          e.preventDefault();
+          if (hits.length) {
+            jumpHit(e.shiftKey ? hitIdx - 1 : hitIdx + 1);
+          } else {
+            runSearch(searchInput.value.trim());
+          }
+        }
       });
       var searchDebounce = null;
       searchInput.addEventListener("input", function () {
